@@ -24,11 +24,17 @@ jobs:
       run: npx playwright install --with-deps
       
     - name: Run Playwright tests
+      id: tests
+      continue-on-error: true
       env:
         BASE_URL: ${{ secrets.BASE_URL }}
         USERNAME: ${{ secrets.APP_USERNAME }}
         PASSWORD: ${{ secrets.APP_PASSWORD }}
       run: npx playwright test
+
+    - name: List files to check for report
+      if: always()
+      run: ls -R
     
     - uses: actions/upload-artifact@v4
       if: always()
@@ -36,3 +42,7 @@ jobs:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
+
+    - name: Fail job if tests failed
+      if: steps.tests.outcome == 'failure'
+      run: exit 1
