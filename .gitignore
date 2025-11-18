@@ -4,3 +4,4 @@ reports
 playwright-report
 test-results
 dist
+.idea
