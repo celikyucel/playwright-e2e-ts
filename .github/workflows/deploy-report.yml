@@ -16,6 +16,7 @@ jobs:
         with:
           name: playwright-report
           path: playwright-report
+          run-id: ${{ github.event.workflow_run.id }}
 
       - name: Prepare public folder
         run: |
